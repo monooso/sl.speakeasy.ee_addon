@@ -1,0 +1,302 @@
+#sjl {
+background : #FFF;
+color : #111;
+font : regular 11px/20px "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+
+
+/* =headings
+ -------------------------------------------------------------*/
+#sjl h1,
+#sjl h2,
+#sjl h3 {
+color : #000;
+font-weight : bold;
+padding : 0 6px;
+}
+
+#sjl h1 {font-size : 18px;}
+
+#sjl h1 em {
+color : #666;
+font-size : 11px;
+font-style : normal;
+font-weight : normal;
+}
+
+#sjl h2 {
+font-size : 14px;
+margin-bottom : 10px;
+}
+
+#sjl h3 {
+font-size : 13px;
+margin : 25px 0 5px;
+}
+
+/* Form headings */
+#sjl form h2,
+#sjl form h3 {
+background-image : url(../img/bg-gradient.png);
+background-position : 0 100%;
+background-repeat : repeat-x;
+color : #FFF;
+margin : 0;
+padding : 9px;
+text-shadow : 0 -1px 0 rgba(0, 0, 0, 0.35);
+}
+
+#sjl form h2 {
+background-color : #768E9D;
+border : 1px solid #CCC;
+border-bottom-color : #52636E;
+}
+
+#sjl form h3 {
+background-color : #8F9295;
+border-bottom : 1px solid #777A7C;
+padding-bottom : 7px;
+padding-top : 7px;
+}
+
+
+/* =paragraphs
+ -------------------------------------------------------------*/
+#sjl p {
+margin-bottom : 10px;
+padding : 0 6px;
+}
+
+
+/* =lists
+ -------------------------------------------------------------*/
+#sjl ul,
+#sjl ol {margin : 20px 0 20px 2em;}
+
+#sjl ul {list-style : disc outside;}
+
+#sjl ol {list-style : decimal outside;}
+
+#sjl li {margin-bottom : 10px;}
+
+
+/* =anchors
+ -------------------------------------------------------------*/
+#sjl a:hover {text-decoration : underline;}
+
+
+/* =tables
+ -------------------------------------------------------------*/
+#sjl table {
+border-left : 1px solid #CCC;
+border-right : 1px solid #CCC;
+border-collapse : collapse;
+width : 100%;
+}
+
+#sjl col {border-left : 1px dotted #CCC;}
+
+#sjl th,
+#sjl td {
+border-bottom : 1px solid #CCC;
+padding : 7px 19px 7px 9px;
+text-align : left;
+vertical-align : middle;
+}
+
+#sjl thead th {
+background : #BEC3C7 url(../img/bg-gradient.png) repeat-x 0 100%;
+border-top : 1px solid #CCC;
+color : #000;
+cursor : pointer;
+padding-right : 9px;
+text-shadow : 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+#sjl tbody th {width : 35%;}
+
+#sjl .odd th,
+#sjl .odd td {background : #EEF4F9;}
+
+/* Nested tables */
+#sjl .nested {padding : 0;}
+
+#sjl .nested table {border : none;}
+
+#sjl .nested th,
+#sjl .nested td {border-style : dotted;}
+
+#sjl .nested table tr:last-child th,
+#sjl .nested table tr:last-child td {border-bottom : none;}
+
+
+/* =forms
+ -------------------------------------------------------------*/
+#sjl form {font : normal 11px/20px "Helvetica Neue", Arial, Helvetica, sans-serif;}
+
+#sjl fieldset {margin-bottom : 20px;}
+
+#sjl fieldset.submit {
+margin-top : -20px;
+padding : 14px 6px;
+}
+ 
+#sjl label {
+font-weight : bold;
+text-shadow : 0 1px 0 rgba(255, 255, 255, 1.0);
+}
+
+#sjl label span {
+color : #666;
+display : block;
+font-weight : normal;
+text-shadow : none;
+}
+
+#sjl td label {font-weight : normal;}
+
+#sjl input.text,
+#sjl textarea {width : 95%;}
+
+#sjl textarea {height : 13.636em;		/* 150px */}
+
+#sjl .hint,
+#sjl .error {margin-bottom : 0;}
+
+#sjl .hint {color : #666;}
+
+#sjl .error {
+background : transparent url(../img/icon-alert.png) no-repeat 0 50%;
+color : #D44211;
+font-weight : bold;
+padding-left : 22px;
+text-shadow : 0 1px 0 rgba(255, 255, 255, 1.0);
+}
+
+
+/* =info
+ -------------------------------------------------------------*/
+#sjl .info {
+background : #FCFCDE;
+border : 3px solid #E5E5E5;
+font-size : 14px;
+font-weight : bold;
+margin : 0 22px 20px;
+padding : 14px 9px 4px;
+}
+
+#sjl fieldset .info {
+border : 1px solid #CCC;
+border-top : none;
+font-size : 11px;
+font-weight : normal;
+margin : 0;
+padding : 9px 3px 1px;
+}
+
+
+/* =button
+ -------------------------------------------------------------*/
+#sjl .button {
+background-color : transparent;
+background-position : 6px 50%;
+background-repeat : no-repeat;
+cursor : pointer;
+display : block;
+font-weight : bold;
+padding-left : 22px;
+}
+
+
+/* =masthead
+ -------------------------------------------------------------*/
+#sjl #masthead {
+border-bottom : 1px solid #EEE;
+float : left;
+margin : 0 0 15px 0;
+padding : 12px 0 6px;
+width : 100%;
+}
+
+#sjl #masthead h1 {float : left;}
+
+/* Navigation */
+#sjl #masthead ul {
+float : right;
+list-style : none;
+margin : 0 10px 0 0;
+}
+
+#sjl #masthead li {
+float : left;
+margin-bottom : 0;
+margin-right : 10px;
+}
+
+#sjl #masthead ul a {
+border-top : 1px solid #FFF;
+color : #666;
+display : block;
+font-size : 1.09em;		/* 12px */
+font-weight : bold;
+line-height : 1.0;		/* 12px */
+-moz-border-radius : 10px;
+padding : 0.333em 10px;
+text-shadow : 0 1px 0 rgba(255, 255, 255, 1.0);
+-webkit-border-radius : 10px;
+}
+
+#sjl #masthead ul a:hover {
+color : #222;
+text-decoration : none;
+}
+
+#sjl #masthead ul .active a {
+background : #E9E9E9;
+border-top-color : rgba(0, 0, 0, 0.15);
+color : #000;
+}
+
+/* Donate button */
+#sjl #masthead div {
+background : #EBE350 url(../img/bg-donate.png) no-repeat 0 50%;
+border : 1px solid #EED5C6;
+border-bottom-color : #DCAC8D;
+border-top-color : #FFF;
+float : right;
+margin-top : -0.455em;		/* 5px */
+-moz-border-radius : 6px;
+-moz-box-shadow : 0 1px 3px rgba(0, 0, 0, 0.25);
+-webkit-border-radius : 6px;
+-webkit-box-shadow : 0 1px 3px rgba(0, 0, 0, 0.25);
+}
+
+#sjl #masthead div a {
+color : #000;
+display : block;
+font-weight : bold;
+line-height : 1.5;
+-moz-border-radius : 5px;
+padding : 6px 9px 6px 75px;
+text-decoration : none;
+text-shadow : 0 1px 0 rgba(255, 255, 255, 0.75);
+-webkit-border-radius : 6px;
+}
+
+
+/* =about
+ -------------------------------------------------------------*/
+#sjl #about .col {
+float : left;
+margin-right : 5%;
+width : 44%;
+}
+
+
+/* =content-block
+ -------------------------------------------------------------*/
+#sjl .content-block {clear : both;}
+
+#sjl.enhanced .content-block {display : none;}
+
+#sjl.enhanced #settings {display : block;}
