@@ -5,11 +5,18 @@
  * comment moderation receive an email containing a link which allows them to approve their own comment.
  *
  * @package   Speakeasy
- * @version   1.1.0
+ * @version   1.1.1
  * @author    Stephen Lewis (http://experienceinternet.co.uk/)
  * @copyright Copyright (c) 2009, Stephen Lewis
- * @license   http://creativecommons.org/licenses/by-sa/3.0/ Creative Commons Attribution-Share Alike 3.0 Unported
+ * @license   http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons Attribution-Noncommerical-Share Alike 3.0 Unported
  * @link      http://experienceinternet.co.uk/resources/details/speakeasy/
+ *
+ * Speakeasy was originally developed for Matt Weinberg at Vector Media Group, for the Greentech Media website.
+ * A big thanks to both companies for allowing this addon to be released to the great unwashed (that's you).
+ *
+ * Stephen Lewis, Experience Internet, Vector Media Group, and Greentech Media are not responsible for any mishaps,
+ * catastrophes, disasters, spillages, data loss, or hair loss that may be caused by the installation or use of Speakeasy.
+ * It's worked great for us, but your experience may differ.
  */
 
 
@@ -23,7 +30,7 @@ $plugin_info = array(
 		'pi_version' 			=> '1.1.0',
 		'pi_author' 			=> 'Stephen Lewis',
 		'pi_author_url' 	=> 'http://experienceinternet.co.uk/',
-		'pi_description' 	=> 'Used in conjunction with the Speakeasy extension to enable comment self-moderation.',
+		'pi_description' 	=> 'Free speech for all (except spammers).',
 		'pi_usage'				=> Speakeasy_pl::usage()
 );
 
