@@ -14,8 +14,10 @@ function init_nav() {
       .removeClass('active');
       
     /* Fade the current content out. */
-    $('#sjl .content-block:not(' + $link.attr('href') + ')').hide();
-		$('#sjl ' + $link.attr('href')).show();
+    $('#sjl .content-block:not(' + $link.attr('href') + ')')
+			.fadeOut('fast', function() {
+				$('#sjl ' + $link.attr('href')).fadeIn('fast');
+			});
       
 		/* Highlight the active link. */
     $link.parent('li').addClass('active');

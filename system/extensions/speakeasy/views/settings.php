@@ -1,6 +1,6 @@
 <div id="sjl">
 
-	<div id="masthead">
+	<div id="masthead" class="clearfix">
 		<h1><?php echo $vars['lang']->line('extension_title') ." <em>v{$vars['version']}</em>"; ?></h1>
 		
 		<div><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=9354405" title="<?php echo $vars['lang']->line('donate'); ?>"><?php echo $vars['lang']->line('donate'); ?></a></div>
@@ -79,13 +79,20 @@
 		</form>
 	</div>
 	
-	<div class="content-block" id="about">
+	<div class="clearfix content-block" id="about">
 	  <div class="col">
-  	  <h2>Credits</h2>
-  	  <p>Speakeasy was written by the dashing Stephen Lewis, who rents out his 1337 ExpressionEngine skillz at <a href="http://experienceinternet.co.uk" title="Experience Internet, home of ExpressionEngine hamburger awesomeness">Experience Internet</a>. You may wish to check out some of <a href="http://experienceinternet.co.uk/" title="ExpressionEngine addons, written by Stephen Lewis of Experience Internet">his other EE addons</a>, whilst you&rsquo;re there.</p>
+			<div class="figure inset">
+				<img src="/themes/cp_themes/default/speakeasy/img/sl.jpg" width="75" height="75" alt="The author, looking dashing." />
+			</div>
+		
+  	  <h2>About the Author</h2>
+  	  <p>Speakeasy was written by the dashing Stephen Lewis, a man who the great <a href="http://twitter.com/kennymeyers/" title="Who is this idiot?">Kenny Meyers</a> once described as &ldquo;Meh&rdquo;.</p>
+			
+			<p>Stephen plies his trade at <a href="http://experienceinternet.co.uk" title="Experience Internet, home of ExpressionEngine hamburger awesomeness">Experience Internet</a>, building <a href="http://experienceinternet.co.uk/services/custom-expressionengine-development/" title="Custom ExpressionEngine website and addon development">custom EE sites and addons</a> for a phalanx of grateful clients. You may wish to check out some of <a href="http://experienceinternet.co.uk/resources/" title="ExpressionEngine addons, written by Stephen Lewis of Experience Internet">his other EE addons</a>, whilst you&rsquo;re there.</p>
 	  
   	  <p>Should you wish to contact Stephen for a chat, or because you wish to transfer large sums of money into his bank account, you can <a href="http://twitter.com/monooso/" title="Follow Stephen">find him on Twitter</a>, or <a href="http://experienceinternet.co.uk/contact/" title="Drop Stephen a line">via the Experience Internet website</a>.</p>
 	  
+			<h2>Credit where it&rsquo;s due</h2>
   	  <p>Speakeasy was originally developed for Matt Weinberg at <a href="http://vectormediagroup.com/" title="Visit the Vector Media Group website">Vector Media Group</a>, for the <a href="http://greentechmedia.com/" title="Visit the Greentech Media website">Greentech Media</a> website. A big thanks to both companies for allowing this addon to be released to the great unwashed (that&rsquo;s you).</p>
   	</div>
 	  
@@ -99,7 +106,7 @@
   	    <li>License your code in a similar fashion, so others can continue to benefit from your work</li>
   	  </ul>
 	  
-  	  <p>Speakeasy is released as-is, without any warranty, express or implied. The author, Stephen Lewis, will endeavour to offer support to those of you gracious enough to use his addon, but this is because he&rsquo;s an all-round good egg. Should he fall under a bus, or just become excessively busy, support may be slow, and perhaps even surly.</p>
+  	  <p>Speakeasy is released as-is, without any warranty, express or implied. The author (Stephen Lewis) will endeavour to offer support to those of you gracious enough to use his addon, because he&rsquo;s an all-round good egg. Should he fall under a bus, or just become excessively busy, support may be slow, and perhaps even surly.</p>
 	  
   	  <p>Finally, Stephen Lewis, Experience Internet, Vector Media Group, and Greentech Media are not responsible for any mishaps, catastrophes, disasters, spillages, data loss, or hair loss that may be caused by the installation or use of Speakeasy. It&rsquo;s worked great for us, but your experience may differ.</p>
   	</div>

@@ -46,7 +46,7 @@ $L = array(
   'default_email_signature' => 'Thank You',
   
   /* About */
-  'donate'  => 'Support Speakeasy by Donating',
+  'donate'  => 'Support Speakeasy',
 
 	/* END */
 	''	=>	''

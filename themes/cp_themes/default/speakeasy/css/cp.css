@@ -1,7 +1,7 @@
 #sjl {
 background : #FFF;
 color : #111;
-font : regular 11px/20px "Helvetica Neue", Arial, Helvetica, sans-serif;
+font : normal 12px/20px "Helvetica Neue", Arial, Helvetica, sans-serif;
 }
 
 
@@ -26,7 +26,7 @@ font-weight : normal;
 
 #sjl h2 {
 font-size : 14px;
-margin-bottom : 10px;
+margin-bottom : 5px;
 }
 
 #sjl h3 {
@@ -37,9 +37,8 @@ margin : 25px 0 5px;
 /* Form headings */
 #sjl form h2,
 #sjl form h3 {
-background-image : url(../img/bg-gradient.png);
-background-position : 0 100%;
-background-repeat : repeat-x;
+background-image : -webkit-gradient(linear, left bottom, left top, from(rgba(0, 0, 0, 0.15)), to(rgba(0, 0, 0, 0)));
+background-image : -moz-linear-gradient(left bottom, left top, from(rgba(0, 0, 0, 0.15)), to(rgba(0, 0, 0, 0)));
 color : #FFF;
 margin : 0;
 padding : 9px;
@@ -94,8 +93,6 @@ border-collapse : collapse;
 width : 100%;
 }
 
-#sjl col {border-left : 1px dotted #CCC;}
-
 #sjl th,
 #sjl td {
 border-bottom : 1px solid #CCC;
@@ -105,7 +102,9 @@ vertical-align : middle;
 }
 
 #sjl thead th {
-background : #BEC3C7 url(../img/bg-gradient.png) repeat-x 0 100%;
+background-color : #BEC3C7;
+background-image : -webkit-gradient(linear, left bottom, left top, from(rgba(0, 0, 0, 0.15)), to(rgba(0, 0, 0, 0)));
+background-image : -moz-linear-gradient(left bottom, left top, from(rgba(0, 0, 0, 0.15)), to(rgba(0, 0, 0, 0)));
 border-top : 1px solid #CCC;
 color : #000;
 cursor : pointer;
@@ -118,21 +117,13 @@ text-shadow : 0 1px 0 rgba(255, 255, 255, 0.5);
 #sjl .odd th,
 #sjl .odd td {background : #EEF4F9;}
 
-/* Nested tables */
-#sjl .nested {padding : 0;}
-
-#sjl .nested table {border : none;}
-
-#sjl .nested th,
-#sjl .nested td {border-style : dotted;}
-
-#sjl .nested table tr:last-child th,
-#sjl .nested table tr:last-child td {border-bottom : none;}
-
 
 /* =forms
  -------------------------------------------------------------*/
-#sjl form {font : normal 11px/20px "Helvetica Neue", Arial, Helvetica, sans-serif;}
+#sjl form {
+font-size : 12px;
+line-height : 20px;
+}
 
 #sjl fieldset {margin-bottom : 20px;}
 
@@ -188,23 +179,45 @@ padding : 14px 9px 4px;
 #sjl fieldset .info {
 border : 1px solid #CCC;
 border-top : none;
-font-size : 11px;
+font-size : 12px;
 font-weight : normal;
 margin : 0;
 padding : 9px 3px 1px;
 }
 
 
-/* =button
- -------------------------------------------------------------*/
-#sjl .button {
-background-color : transparent;
-background-position : 6px 50%;
-background-repeat : no-repeat;
-cursor : pointer;
+/* =clearfix
+ ----------------------------------------------*/
+#sjl .clearfix:after {
+clear : both;
 display : block;
-font-weight : bold;
-padding-left : 22px;
+height : 0;
+visibility : hidden;
+content : ".";
+}
+
+
+/* =figures
+ ----------------------------------------------*/
+#sjl .figure {
+background : #DDD;
+display : block;
+padding : 5px;
+}
+
+#sjl .figure.inset {
+float : left;
+margin-right : 10px;
+}
+
+#sjl .figure.inset.alternative {
+float : right;
+margin-left : 10px;
+}
+
+#sjl .figure img {
+border : 1px solid #FFF;
+display : block;
 }
 
 
@@ -212,7 +225,6 @@ padding-left : 22px;
  -------------------------------------------------------------*/
 #sjl #masthead {
 border-bottom : 1px solid #EEE;
-float : left;
 margin : 0 0 15px 0;
 padding : 12px 0 6px;
 width : 100%;
@@ -224,7 +236,7 @@ width : 100%;
 #sjl #masthead ul {
 float : right;
 list-style : none;
-margin : 0 10px 0 0;
+margin : 0;
 }
 
 #sjl #masthead li {
@@ -237,9 +249,9 @@ margin-right : 10px;
 border-top : 1px solid #FFF;
 color : #666;
 display : block;
-font-size : 1.09em;		/* 12px */
+font-size : 12px;
 font-weight : bold;
-line-height : 1.0;		/* 12px */
+line-height : 1.0;
 -moz-border-radius : 10px;
 padding : 0.333em 10px;
 text-shadow : 0 1px 0 rgba(255, 255, 255, 1.0);
@@ -264,6 +276,7 @@ border : 1px solid #EED5C6;
 border-bottom-color : #DCAC8D;
 border-top-color : #FFF;
 float : right;
+margin-left : 20px;
 margin-top : -0.455em;		/* 5px */
 -moz-border-radius : 6px;
 -moz-box-shadow : 0 1px 3px rgba(0, 0, 0, 0.25);
@@ -288,15 +301,18 @@ text-shadow : 0 1px 0 rgba(255, 255, 255, 0.75);
  -------------------------------------------------------------*/
 #sjl #about .col {
 float : left;
-margin-right : 5%;
-width : 44%;
+margin-left : 30px;
+width : 45%;
 }
+
+#sjl #about .col:first-child {margin-left : 0;}
+
+#sjl #about .col:first-child h2,
+#sjl #about .col:first-child p {margin-left : 97px;}
 
 
 /* =content-block
  -------------------------------------------------------------*/
-#sjl .content-block {clear : both;}
-
 #sjl.enhanced .content-block {display : none;}
 
 #sjl.enhanced #settings {display : block;}
