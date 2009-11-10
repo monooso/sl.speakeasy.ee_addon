@@ -5,7 +5,7 @@
  * comment moderation receive an email containing a link which allows them to approve their own comment.
  *
  * @package   Speakeasy
- * @version   1.1.1
+ * @version   1.1.2
  * @author    Stephen Lewis (http://experienceinternet.co.uk/)
  * @copyright Copyright (c) 2009, Stephen Lewis
  * @license   http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons Attribution-Noncommerical-Share Alike 3.0 Unported
@@ -45,7 +45,7 @@ class Speakeasy {
    * @access  public
    * @var     string
    */
-  public $version = '1.1.1';
+  public $version = '1.1.2';
   
   /**
    * The extension description.
@@ -141,6 +141,60 @@ class Speakeasy {
 	
 	
 	/**
+	 * Registers a new addon with the LG Addon Updater extension.
+	 *
+	 * @access  public
+	 * @param		array 		$addons		The existing addons.
+	 * @return 	array 		The new addons list.
+	 */
+	public function lg_addon_update_register_addon($addons)
+	{
+		global $EXT;
+		
+		// Retrieve the data from the previous call, if applicable.
+		if ($EXT->last_call !== FALSE)
+		{
+			$addons = $EXT->last_call;
+		}
+		
+		// Register a new addon.
+		if ($this->settings['update_check'] == 'y')
+		{
+			$addons[$this->name] = $this->version;
+		}
+		
+		return $addons;
+	}
+	
+	
+	/**
+	 * Registers a new addon source with the LG Addon Updater extension.
+	 *
+	 * @access  public
+	 * @param		array 		$sources	  The existing sources.
+	 * @return	array 		The new source list.
+	 */
+	public function lg_addon_update_register_source($sources)
+	{
+		global $EXT;
+		
+		// Retrieve the data from the previous call, if applicable.
+		if ($EXT->last_call !== FALSE)
+		{
+			$sources = $EXT->last_call;
+		}
+		
+		// Register a new source.
+		if ($this->settings['update_check'] == 'y')
+		{
+			$sources[] = 'http://experienceinternet.co.uk/addon-versions.xml';
+		}
+		
+		return $sources;
+	}
+	
+	
+	/**
 	 * Activates the extension.
 	 *
 	 * @access  public
@@ -148,17 +202,25 @@ class Speakeasy {
 	public function activate_extension()
 	{
 		global $DB;
-
-		$sql[] = $DB->insert_string('exp_extensions', array(
-				'extension_id' => '',
-				'class'        => get_class($this),
-				'method'       => 'insert_comment_end',
-				'hook'         => 'insert_comment_end',
-				'settings'     => '',
-				'priority'     => 10,
-				'version'      => $this->version,
-				'enabled'      => 'y'
-				));
+		
+		$hooks = array('insert_comment_end'		=> array('method' => 'insert_comment_end', 'priority' => 10),
+			'lg_addon_update_register_source'		=> array('method' => 'lg_addon_update_register_source', 'priority' => 10),
+			'lg_addon_update_register_addon'		=> array('method' => 'lg_addon_update_register_addon', 'priority' => 10)
+			);
+			
+		foreach ($hooks AS $hook_id => $hook_data)
+		{
+			$sql[] = $DB->insert_string('exp_extensions', array(
+					'extension_id' => '',
+					'class'        => get_class($this),
+					'method'       => $hook_data['method'],
+					'hook'         => $hook_id,
+					'settings'     => '',
+					'priority'     => $hook_data['priority'],
+					'version'      => $this->version,
+					'enabled'      => 'y'
+					));
+		}
 				
 		$sql[] = "CREATE TABLE IF NOT EXISTS `exp_speakeasy` (
 			`id` int(10) NOT NULL AUTO_INCREMENT,
@@ -190,7 +252,36 @@ class Speakeasy {
 		global $DB;
 
 		if ($current == '' OR $current == $this->version)
+		{
 			return FALSE;
+		}
+			
+		if ($current < '1.1.2')
+		{
+			// Register for LG Addon Updater hooks, which I inexplicably forgot to do.
+			$hooks = array(
+				'lg_addon_update_register_source' => array('method' => 'lg_addon_update_register_source', 'priority' => 10),
+				'lg_addon_update_register_addon'	=> array('method' => 'lg_addon_update_register_addon', 'priority' => 10)
+				);
+
+			foreach ($hooks AS $hook_id => $hook_data)
+			{
+				$DB->query($DB->insert_string(
+					'exp_extensions',
+					array(
+						'extension_id' => '',
+						'class'        => get_class($this),
+						'method'       => $hook_data['method'],
+						'hook'         => $hook_id,
+						'settings'     => '',
+						'priority'     => $hook_data['priority'],
+						'version'      => $this->version,
+						'enabled'      => 'y'
+						)
+					)
+				);
+			}
+		}
 
 		if ($current < $this->version)
 		{
