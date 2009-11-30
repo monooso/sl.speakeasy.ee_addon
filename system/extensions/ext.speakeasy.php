@@ -438,7 +438,7 @@ class Speakeasy {
 	{
 	  global $LANG;
 	  
-	  $LANG->fetch_language_file(get_class($this));
+	  $LANG->fetch_language_file(strtolower(get_class($this)));
 	  
 	  return array(
 	    'activation_url'  => '',
