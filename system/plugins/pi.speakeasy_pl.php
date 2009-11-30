@@ -139,7 +139,8 @@ class Speakeasy_pl {
 		$result = $DB->query("SELECT `comment_id`, `comment_url` FROM `exp_speakeasy` WHERE `activation_code` = '{$code}'");
 		if ($result->num_rows != 1)
 		{
-			return ($this->_parse_tagdata(array('comment_approved' => FALSE), $tagdata));
+			return ($this->_parse_tagdata(
+				array('comment_approved' => FALSE), $tagdata));
 		}
 		
 		// Make a note of the comment URL and comment ID.
@@ -179,7 +180,11 @@ class Speakeasy_pl {
     }
 		
 		// Huzzah, success!
-		return ($this->_parse_tagdata(array('comment_approved' => TRUE, 'comment_url' => $comment_url), $tagdata));
+		return ($this->_parse_tagdata(array(
+			'comment_approved' 	=> TRUE,
+			'comment_id'				=> $comment_id,
+			'comment_url' 			=> $comment_url
+			), $tagdata));
 	}
 	
 	
