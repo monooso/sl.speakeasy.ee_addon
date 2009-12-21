@@ -117,6 +117,24 @@ text-shadow : 0 1px 0 rgba(255, 255, 255, 0.5);
 #sjl .odd th,
 #sjl .odd td {background : #EEF4F9;}
 
+/* Nested tables */
+#sjl .nested {
+padding-bottom : 0;
+padding-right : 9px;
+}
+
+#sjl .nested table {border : none;}
+
+#sjl .nested th,
+#sjl .nested td {
+border-style : dotted;
+padding-left : 0;
+padding-right : 0;
+}
+
+#sjl .nested table > tbody > tr:last-child th,
+#sjl .nested table > tbody > tr:last-child td {border-bottom : none;}
+
 
 /* =forms
  -------------------------------------------------------------*/
@@ -140,13 +158,14 @@ text-shadow : 0 1px 0 rgba(255, 255, 255, 1.0);
 #sjl label span {
 color : #666;
 display : block;
+font-size : 11px;
 font-weight : normal;
 text-shadow : none;
 }
 
 #sjl td label {font-weight : normal;}
 
-#sjl input.text,
+#sjl input[type="text"],
 #sjl textarea {width : 95%;}
 
 #sjl textarea {height : 13.636em;		/* 150px */}

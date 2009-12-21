@@ -31,6 +31,23 @@ $L = array(
 'activation_email_signature_label'  => 'Email signature',
 'activation_email_signature_hint'   => 'The text that appears after the activation URL.',
 
+'comment_submission_message_title'	=> 'Comment Submission Message',
+'comment_submission_message_info'		=> 'Customise the message that is displayed when a visitor submits a self-moderated comment.',
+
+'display_message_label'		=> 'Display message after comment submission?',
+'display_message_hint'		=> 'Your message will be displayed for the specified amount of time, before the visitor is automatically redirected to the comments page.',
+
+'message_title_label'		=> 'Page title',
+'message_title_hint'		=> 'The browser title.',
+'message_heading_label'	=> 'Main heading',
+'message_heading_hint'	=> 'The main page heading.',
+'message_text_label'		=> 'Body',
+'message_text_hint'			=> 'The message content. Standard EE text formatting is supported.',
+'message_link_label'		=> 'Link text',
+'message_link_hint'			=> 'The text linking the user back to the comments page (the actual link will be generated automatically).',
+'message_delay_label'		=> 'Delay (seconds)',
+'message_delay_hint'		=> 'The amount of time to display the message, before automatically redirecting to the comments page.',
+
 'save_settings' => 'Save Settings',
 
 /* LG Addon Updater */
@@ -41,6 +58,12 @@ $L = array(
 'updates_no'    => 'No',
 
 /* Defaults */
+'default_message_title'			=> 'Activate your comment',
+'default_message_heading'		=> 'Please activate your comment',
+'default_message_text'			=> 'You have been sent an email containing a link. Please click on it to activate your comment.',
+'default_message_link'			=> 'Click here if you are not automatically redirected.',
+'default_delay'							=> 3,
+
 'default_email_subject'   => 'Activate your comment',
 'default_email_body'      => 'Please click on the link below to activate your comment. If the link is split across more than one line, you may need to copy and paste it into the address bar of your browser.',
 'default_email_signature' => 'Thank You',

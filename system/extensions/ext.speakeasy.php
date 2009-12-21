@@ -5,7 +5,7 @@
  * comment moderation receive an email containing a link which allows them to approve their own comment.
  *
  * @package   Speakeasy
- * @version   1.1.3
+ * @version   1.2.0
  * @author    Stephen Lewis (http://experienceinternet.co.uk/)
  * @copyright Copyright (c) 2009, Stephen Lewis
  * @license   http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons Attribution-Noncommerical-Share Alike 3.0 Unported
@@ -45,7 +45,7 @@ class Speakeasy {
    * @access  public
    * @var     string
    */
-  public $version = '1.1.3';
+  public $version = '1.2.0';
   
   /**
    * The extension description.
@@ -103,7 +103,7 @@ class Speakeasy {
 	 */
 	public function insert_comment_end($data, $moderate, $comment_id = '')
 	{
-		global $DB, $FNS, $PREFS, $SESS;
+		global $DB, $EXT, $FNS, $LANG, $OUT, $PREFS, $SESS;
 		
 		// We only need to do our thing if the comment doesn't require moderation.
 		if (strtolower($moderate) === 'n')
@@ -137,6 +137,44 @@ class Speakeasy {
 		// Create an entry in the exp_sl_speakeasy table, and send the activation email.
 		$data['activation_code'] = $this->_add_comment_to_database($data);
 		$this->_send_activation_email($data);
+		
+		// Retrieve the extension settings.
+		$settings = $this->_load_settings();
+		
+		// Don't want anything happening after we've done our thing.
+		$EXT->end_script = TRUE;
+		
+		if ($settings['display_message'] == 'y')
+		{
+			$message_data = array(
+				'content'		=> $settings['message_text'],
+				'heading'		=> $settings['message_heading'],
+				'link'			=> array($_POST['RET'], $settings['message_link']),
+				'rate'			=> intval($settings['message_delay']),
+				'redirect'	=> $_POST['RET'],
+				'title'			=> $settings['message_title']
+				);
+				
+			/**
+			 * Not overly happy with this, feels very hacky. There's no way to override
+			 * the link text, without setting the 'refresh_message' property to FALSE
+			 * temporarily, and then restoring its original value after we've displayed
+			 * our message.
+			 *
+			 * @see lines 468 to 477 in core.output.php for the reason why.
+			 */
+			
+			$out_refresh_msg = $OUT->refresh_msg;
+			$OUT->refresh_msg = FALSE;
+			
+			$OUT->show_message($message_data, TRUE);
+			
+			$OUT->refresh_msg = $out_refresh_msg;
+		}
+		else
+		{
+			$FNS->redirect($_POST['RET']);
+		}
 	}
 	
 	
@@ -285,8 +323,7 @@ class Speakeasy {
 
 		if ($current < $this->version)
 		{
-			$DB->query("
-			  UPDATE exp_extensions
+			$DB->query("UPDATE exp_extensions
 				SET version = '" . $DB->escape_str($this->version) . "' 
 			  WHERE class = '" . get_class($this) . "'"
 			  );
@@ -374,15 +411,24 @@ class Speakeasy {
 	public function save_settings()
 	{
 	  global $DB, $IN;
-	  
-	  // Retrieve the extension settings.
-	  $settings = array(
-	    'activation_url'  => $IN->GBL('activation_url', 'POST'),
-  	  'email_subject'   => $IN->GBL('email_subject', 'POST'),
-  	  'email_body'      => $IN->GBL('email_body', 'POST'),
-  	  'email_signature' => $IN->GBL('email_signature', 'POST'),
-  	  'update_check'    => $IN->GBL('update_check', 'POST')
-	    );
+			
+		// Retrieve the default extension settings.
+		$settings = $this->_get_default_settings();
+		
+		// Replace the default settings with any user-provided values.
+		foreach ($settings AS $key => $val)
+		{
+			if ($IN->GBL($key, 'POST') !== FALSE)
+			{
+				// Extra check for the delay.
+				if ($key == 'message_delay' && ! is_numeric($IN->GBL('message_delay', 'POST')))
+				{
+					continue;
+				}
+				
+				$settings[$key] = $IN->GBL($key, 'POST');
+			}
+		}
 	  
 	  // Save the extension settings.
 	  $DB->query($DB->update_string(
@@ -409,18 +455,24 @@ class Speakeasy {
 	private function _load_settings()
 	{
 	  global $DB, $REGX, $PREFS;
-	  
-	  // Load the settings from the database.
+	
+		// Load the default settings.
+		$settings = $this->_get_default_settings();
+		
+		// Load any saved settings, and replace the default settings, where possible.
 	  $db_settings = $DB->query("SELECT `settings` FROM `exp_extensions` WHERE `class` = '" .get_class($this). "' LIMIT 1");
 	  
 	  if ($db_settings->num_rows === 1 && $db_settings->row['settings'] !== '')
 	  {
-	    $settings = $REGX->array_stripslashes(unserialize($db_settings->row['settings']));
-	  }
-	  else
-	  {	    
-	    // No saved settings. Load the defaults.
-	    $settings = $this->_get_default_settings();
+	    $saved_settings = $REGX->array_stripslashes(unserialize($db_settings->row['settings']));
+	
+			foreach ($settings AS $key => $val)
+			{
+				if (array_key_exists($key, $saved_settings))
+				{
+					$settings[$key] = $saved_settings[$key];
+				}
+			}
 	  }
 	  
 	  // Return the settings.
@@ -442,9 +494,15 @@ class Speakeasy {
 	  
 	  return array(
 	    'activation_url'  => '',
+			'display_message'	=> 'n',
 	    'email_subject'   => $LANG->line('default_email_subject'),
 	    'email_body'      => $LANG->line('default_email_body'),
 	    'email_signature' => $LANG->line('default_email_signature'),
+			'message_delay'		=> $LANG->line('default_delay'),
+			'message_link'		=> $LANG->line('default_message_link'),
+			'message_heading'	=> $LANG->line('default_message_heading'),
+			'message_text'		=> $LANG->line('default_message_text'),
+			'message_title'		=> $LANG->line('default_message_title'),
 	    'update_check'    => 'y'
 	    );
 	}

@@ -29,7 +29,36 @@ function init_nav() {
 } // init_nav
 
 
+/**
+ * Initialise the "message details" field.
+ */
+function init_message_details() {
+	$('#sjl .message-details')
+		.siblings('label')
+		.find(':radio')
+		.click(function() {
+			if ($(this).val() == 'y') {
+				$(this)
+					.parent('label')
+					.siblings('.message-details')
+					.slideDown();
+			} else {
+				$(this)
+					.parent('label')
+					.siblings('.message-details')
+					.slideUp();
+			}
+		});
+		
+	$('.message-details')
+		.siblings('label:has(:radio:checked[value="n"])')
+		.siblings('.message-details')
+		.hide();
+}
+
+
 $(document).ready(function() {
   $('#sjl').addClass('enhanced');   /* Add a CSS hook. */
   init_nav();                       /* Initialise the navigation. */
+	init_message_details();						/* Initialise the message details. */
 });

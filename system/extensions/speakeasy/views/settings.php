@@ -71,6 +71,95 @@
 				</table>
 			</fieldset>
 			
+			<fieldset>
+				<h2><?php echo $vars['lang']->line('comment_submission_message_title'); ?></h2>
+				<div class="info">
+					<p><?php echo $vars['lang']->line('comment_submission_message_info'); ?></p>
+				</div><!-- .info -->
+				
+				<table cellpadding="0" cellspacing="0">
+					<tbody>
+						<tr class="odd">
+							<th>
+								<label>
+									<?php echo $vars['lang']->line('display_message_label'); ?>
+									<span><?php echo $vars['lang']->line('display_message_hint'); ?></span>
+								</label>
+							</th>
+							<td class="nested">
+								<label>
+									<input id="display_message_y" name="display_message" type="radio" value="y"
+									 	<?php if ($vars['settings']['display_message'] === 'y') echo 'checked="checked"'; ?>/>
+									<?php echo $vars['lang']->line('yes'); ?>
+								</label>
+							
+								<label>
+									<input id="display_message_n" name="display_message" type="radio" value="n"
+										<?php if ($vars['settings']['display_message'] !== 'y') echo 'checked="checked"'; ?> />
+									<?php echo $vars['lang']->line('no'); ?>
+								</label>
+							
+								<div class="message-details">
+									<table cellpadding="0" cellspacing="0">
+										<tbody>
+											<tr>
+												<th>
+													<label for="message_title"><?php echo $vars['lang']->line('message_title_label'); ?>
+														<span><?php echo $vars['lang']->line('message_title_hint'); ?></span></label></th>
+												<td>
+													<input id="message_title" name="message_title" type="text" value="<?php echo $vars['settings']['message_title']; ?>" />
+												</td>
+											</tr>
+											
+											<tr>
+												<th>
+													<label for="message_heading"><?php echo $vars['lang']->line('message_heading_label'); ?>
+														<span><?php echo $vars['lang']->line('message_heading_hint'); ?></span></label></th>
+												<td><input id="message_heading" name="message_heading" type="text" value="<?php echo $vars['settings']['message_heading']; ?>" /></td>
+											</tr>
+											
+											<tr>
+												<th><label for="message_text"><?php echo $vars['lang']->line('message_text_label'); ?>
+													<span><?php echo $vars['lang']->line('message_text_hint'); ?></span>
+												</label></th>
+												<td>
+													<textarea cols="10" id="message_text" name="message_text" rows="10"><?php echo $vars['settings']['message_text']; ?></textarea>
+												</td>
+											</tr>
+											
+											<tr>
+												<th>
+													<label for="message_link"><?php echo $vars['lang']->line('message_link_label'); ?>
+														<span><?php echo $vars['lang']->line('message_link_hint'); ?></span></label></th>
+												<td><input id="message_link" name="message_link" type="text" value="<?php echo $vars['settings']['message_link']; ?>" /></td>
+											</tr>
+											
+											<tr>
+												<th>
+													<label for="message_delay"><?php echo $vars['lang']->line('message_delay_label'); ?>
+														<span><?php echo $vars['lang']->line('message_delay_hint'); ?></span></label></th>
+												<td>
+													<select id="message_delay" name="message_delay">
+														<?php
+															for ($count = 1, $max = 10; $count <= $max; $count++)
+															{
+																echo "<option value='{$count}'";
+																echo $vars['settings']['message_delay'] == $count ? " selected='selected'" : '';
+																echo ">{$count}</option>";
+															}
+														?>
+													</select>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</fieldset>
+			
 			<?php include('settings-update.php'); ?>
 		
 			<fieldset class="submit">
