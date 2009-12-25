@@ -605,4 +605,6 @@ class Speakeasy {
 	
 }
 
-?>
+/**
+ * End of file ext.speakeasy.php
+ */
