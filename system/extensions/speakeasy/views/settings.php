@@ -160,7 +160,7 @@
 				</table>
 			</fieldset>
 			
-			<?php include('settings-update.php'); ?>
+			<?php /* include('settings-update.php'); */ ?>
 		
 			<fieldset class="submit">
 				<input type="submit" value="<?php echo $vars['lang']->line('save_settings'); ?>" />

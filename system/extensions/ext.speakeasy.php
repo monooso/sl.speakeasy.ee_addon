@@ -5,7 +5,7 @@
  * comment moderation receive an email containing a link which allows them to approve their own comment.
  *
  * @package   Speakeasy
- * @version   1.2.0
+ * @version   1.2.1
  * @author    Stephen Lewis (http://experienceinternet.co.uk/)
  * @copyright Copyright (c) 2009, Stephen Lewis
  * @license   http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons Attribution-Noncommerical-Share Alike 3.0 Unported
@@ -27,57 +27,57 @@ if ( ! defined('EXT'))
 
 class Speakeasy {
   
-  /**
-   * Required properties.
-   */
-  
-  /**
-   * The extension name.
-   *
-   * @access  public
-   * @var     string
-   */
-  public $name = 'Speakeasy';
-  
-  /**
-   * The extension version.
-   *
-   * @access  public
-   * @var     string
-   */
-  public $version = '1.2.0';
-  
-  /**
-   * The extension description.
-   *
-   * @access  public
-   * @var     string
-   */
-  public $description = 'Free speech for all (except spammers).';
-  
-  /**
-   * The documentation URL.
-   *
-   * @access  public
-   * @var     string
-   */
-  public $docs_url = 'http://experienceinternet.co.uk/resources/details/speakeasy';
-  
-  /**
-   * Does this extension have custom settings?
-   *
-   * @access  public
-   * @var     string
-   */
-  public $settings_exist = 'y';
-  
-  /**
-   * The extension settings.
-   *
-   * @access  public
-   * @var     array
-   */
-  public $settings = array();
+	/**
+	 * Required properties.
+	 */
+
+	/**
+	 * The extension name.
+	 *
+	 * @access  public
+	 * @var     string
+	 */
+	public $name = 'Speakeasy';
+
+	/**
+	 * The extension version.
+	 *
+	 * @access  public
+	 * @var     string
+	 */
+	public $version = '1.2.1';
+
+	/**
+	 * The extension description.
+	 *
+	 * @access  public
+	 * @var     string
+	 */
+	public $description = 'Free speech for all (except spammers).';
+
+	/**
+	 * The documentation URL.
+	 *
+	 * @access  public
+	 * @var     string
+	 */
+	public $docs_url = 'http://experienceinternet.co.uk/resources/details/speakeasy';
+
+	/**
+	 * Does this extension have custom settings?
+	 *
+	 * @access  public
+	 * @var     string
+	 */
+	public $settings_exist = 'y';
+
+	/**
+	 * The extension settings.
+	 *
+	 * @access  public
+	 * @var     array
+	 */
+	public $settings = array();
 	
 	
 	/**
@@ -209,7 +209,7 @@ class Speakeasy {
 	 * Registers a new addon source with the LG Addon Updater extension.
 	 *
 	 * @access  public
-	 * @param		array 		$sources	  The existing sources.
+	 * @param	array 		$sources	  The existing sources.
 	 * @return	array 		The new source list.
 	 */
 	public function lg_addon_update_register_source($sources)
@@ -241,26 +241,9 @@ class Speakeasy {
 	{
 		global $DB;
 		
-		$hooks = array('insert_comment_end'		=> array('method' => 'insert_comment_end', 'priority' => 10),
-			'lg_addon_update_register_source'		=> array('method' => 'lg_addon_update_register_source', 'priority' => 10),
-			'lg_addon_update_register_addon'		=> array('method' => 'lg_addon_update_register_addon', 'priority' => 10)
-			);
-			
-		foreach ($hooks AS $hook_id => $hook_data)
-		{
-			$sql[] = $DB->insert_string('exp_extensions', array(
-					'extension_id' => '',
-					'class'        => get_class($this),
-					'method'       => $hook_data['method'],
-					'hook'         => $hook_id,
-					'settings'     => '',
-					'priority'     => $hook_data['priority'],
-					'version'      => $this->version,
-					'enabled'      => 'y'
-					));
-		}
+		$this->_register_hooks();
 				
-		$sql[] = "CREATE TABLE IF NOT EXISTS `exp_speakeasy` (
+		$DB->query("CREATE TABLE IF NOT EXISTS `exp_speakeasy` (
 			`id` int(10) NOT NULL AUTO_INCREMENT,
 			`weblog_id` int(10) NOT NULL,
 			`entry_id` int(10) NOT NULL,
@@ -269,12 +252,7 @@ class Speakeasy {
 			`email` varchar(100) NOT NULL,
 			`activation_code` varchar(10) NOT NULL,
 			PRIMARY KEY (id)
-			)";
-			
-		foreach ($sql AS $query)
-		{
-			$DB->query($query);
-		}		
+		)");
 	}
 
 
@@ -293,41 +271,12 @@ class Speakeasy {
 		{
 			return FALSE;
 		}
-			
-		if ($current < '1.1.2')
-		{
-			// Register for LG Addon Updater hooks, which I inexplicably forgot to do.
-			$hooks = array(
-				'lg_addon_update_register_source' => array('method' => 'lg_addon_update_register_source', 'priority' => 10),
-				'lg_addon_update_register_addon'	=> array('method' => 'lg_addon_update_register_addon', 'priority' => 10)
-				);
-
-			foreach ($hooks AS $hook_id => $hook_data)
-			{
-				$DB->query($DB->insert_string(
-					'exp_extensions',
-					array(
-						'extension_id' => '',
-						'class'        => get_class($this),
-						'method'       => $hook_data['method'],
-						'hook'         => $hook_id,
-						'settings'     => '',
-						'priority'     => $hook_data['priority'],
-						'version'      => $this->version,
-						'enabled'      => 'y'
-						)
-					)
-				);
-			}
-		}
-
-		if ($current < $this->version)
-		{
-			$DB->query("UPDATE exp_extensions
-				SET version = '" . $DB->escape_str($this->version) . "' 
-			  WHERE class = '" . get_class($this) . "'"
-			  );
-		}
+		
+		// Delete all the current hooks.
+		$DB->query("DELETE FROM exp_extensions WHERE class = '" .get_class($this) ."'");
+		
+		// Register the hooks anew.
+		$this->_register_hooks($this->settings);
 	}
 
 
@@ -358,48 +307,58 @@ class Speakeasy {
 	 */
 	public function settings_form($current = '')
 	{
-	  global $DSP, $IN, $LANG, $PREFS;
-	  
-	  $DSP->crumbline = TRUE;
-	  $DSP->title = $LANG->line('extension_title');
-	  
-	  // Breadcrumbs.
-	  $DSP->crumb = $DSP->anchor(BASE.AMP. 'C=admin' .AMP. 'area=utilities', $LANG->line('crumb_utilities'));
-	  $DSP->crumb .= $DSP->crumb_item($DSP->anchor(BASE.AMP. 'C=admin' .AMP. 'M=utilities' .AMP. 'P=extensions_manager', $LANG->line('crumb_extensions_manager')));
-	  $DSP->crumb .= $DSP->crumb_item($LANG->line('extension_title') .' '. $this->version);
-	  
-	  // Disable extension button.
-	  $DSP->right_crumb(
-	    $LANG->line('disable_extension'),
-	    BASE.AMP. 'C=admin' .AMP. 'M=utilities' .AMP. 'P=toggle_extension' .AMP. 'which=disable' .AMP. 'name=' .$IN->GBL('name')
-	    );
-	    
-	  // Include the CSS and JavaScript.
-	  $DSP->body = '';
-	  $DSP->body .= '<link rel="stylesheet" type="text/css" media="screen,projection" href="' .$PREFS->ini('theme_folder_url'). 'cp_themes/' .$PREFS->ini('cp_theme'). '/speakeasy/css/admin.css" />';
-	  $DSP->body .= '<script type="text/javascript" src="' .$PREFS->ini('theme_folder_url'). 'cp_themes/' .$PREFS->ini('cp_theme'). '/speakeasy/js/admin.js"></script>';
-	  
-	  // Create the variables required by the View.
-	  $vars = array(
-	    'lang'      => $LANG,
-	    'form_open' => $DSP->form_open(
-	      array(
-	        'action'  => 'C=admin' .AMP. 'M=utilities' .AMP. 'P=save_extension_settings',
-	        'name'    => 'extension_settings',
-	        'id'      => 'extension_settings'
-	        ),
-	      array(
-	        'name'    => strtolower(get_class($this))
-	        )
-	      ),
-	    'settings'  => $this->settings,
-	    'version'   => $this->version
-	    );
-	  
-	  // Load the View.
-    ob_start();
-    include(PATH_EXT.'/speakeasy/views/settings.php');
-    $DSP->body .= ob_get_clean();
+		global $DSP, $IN, $LANG, $PREFS;
+
+		$DSP->crumbline	= TRUE;
+		$DSP->title 	= $LANG->line('extension_title');
+
+		// Breadcrumbs.
+		$DSP->crumb = $DSP->anchor(BASE .AMP .'C=admin' .AMP. 'area=utilities', $LANG->line('crumb_utilities'));
+		
+		$DSP->crumb .= $DSP->crumb_item($DSP->anchor(
+				BASE .AMP .'C=admin' .AMP .'M=utilities' .AMP .'P=extensions_manager',
+				$LANG->line('crumb_extensions_manager'
+			)));
+			
+		$DSP->crumb .= $DSP->crumb_item($LANG->line('extension_title') .' ' .$this->version);
+
+		// Disable extension button.
+		$DSP->right_crumb(
+			$LANG->line('disable_extension'),
+			BASE .AMP .'C=admin' .AMP. 'M=utilities' .AMP. 'P=toggle_extension' .AMP. 'which=disable' .AMP. 'name=' .$IN->GBL('name')
+		);
+  
+		// Include the CSS and JavaScript.
+		$DSP->body = '<link rel="stylesheet" type="text/css" media="screen,projection" href="'
+			.$PREFS->ini('theme_folder_url'). 'cp_themes/'
+			.$PREFS->ini('cp_theme')
+			.'/speakeasy/css/admin.css" />';
+			
+		$DSP->body .= '<script type="text/javascript" src="'
+			.$PREFS->ini('theme_folder_url'). 'cp_themes/'
+			.$PREFS->ini('cp_theme'). '/speakeasy/js/admin.js"></script>';
+
+		// Create the variables required by the View.
+		$vars = array(
+			'lang'		=> $LANG,
+			'form_open'	=> $DSP->form_open(
+				array(
+					'action'	=> 'C=admin' .AMP .'M=utilities' .AMP .'P=save_extension_settings',
+					'name'		=> 'extension_settings',
+					'id'		=> 'extension_settings'
+				),
+				array(
+					'name'	=> strtolower(get_class($this))
+				)
+			),
+			'settings'	=> $this->settings,
+			'version'	=> $this->version
+		);
+
+		// Load the View.
+		ob_start();
+		include(PATH_EXT .'/speakeasy/views/settings.php');
+		$DSP->body .= ob_get_clean();
 	}
 	
 	
@@ -430,12 +389,12 @@ class Speakeasy {
 			}
 		}
 	  
-	  // Save the extension settings.
-	  $DB->query($DB->update_string(
-	    'exp_extensions',
-	    array('settings' => addslashes(serialize($settings))),
-	    'class = "' .get_class($this). '"'
-	    ));
+		// Save the extension settings.
+		$DB->query($DB->update_string(
+			'exp_extensions',
+			array('settings' => addslashes(serialize($settings))),
+			'class = "' .get_class($this). '"'
+		));
 	}
 	
 	
@@ -444,7 +403,58 @@ class Speakeasy {
 	 * PRIVATE METHODS
 	 * --------------------------------------------
 	 */
-	 
+	
+	/**
+	 * Registers the extension hooks.
+	 *
+	 * @access	private
+	 * @param 	array 		$settings		The settings to use.
+	 * @return	void
+	 */
+	private function _register_hooks($settings = array())
+	{
+		global $DB;
+		
+		// Talk sense boy!
+		if ( ! is_array($settings))
+		{
+			$settings = array();
+		}
+		
+		// Just in case we've been passed a partial settings array.
+		$settings = array_merge($this->_get_default_settings(), $settings);
+		$settings = addslashes(serialize($settings));
+		
+		/**
+		 * Somewhere, there's a very strange conflict with LG Addon Updater, that I cannot
+		 * track down.
+		 *
+		 * In the interests of getting a working solution out to people, support has been
+		 * removed in version 1.2.1, pending further investigation.
+		 */
+		
+		$hooks = array('insert_comment_end' => array('method' => 'insert_comment_end', 'priority' => 10));
+
+		foreach ($hooks AS $hook_id => $hook_data)
+		{
+			$sql[] = $DB->insert_string('exp_extensions', array(
+				'extension_id' => '',
+				'class'        => get_class($this),
+				'method'       => $hook_data['method'],
+				'hook'         => $hook_id,
+				'settings'     => $settings,
+				'priority'     => $hook_data['priority'],
+				'version'      => $this->version,
+				'enabled'      => 'y'
+			));
+		}
+		
+		foreach ($sql AS $query)
+		{
+			$DB->query($query);
+		}
+	}
+	
 	
 	/**
 	 * Loads the extension settings from the database. If no saved settings exist, the default settings are loaded.
@@ -454,29 +464,22 @@ class Speakeasy {
 	 */
 	private function _load_settings()
 	{
-	  global $DB, $REGX, $PREFS;
+		global $DB, $REGX, $PREFS;
 	
 		// Load the default settings.
 		$settings = $this->_get_default_settings();
 		
 		// Load any saved settings, and replace the default settings, where possible.
-	  $db_settings = $DB->query("SELECT `settings` FROM `exp_extensions` WHERE `class` = '" .get_class($this). "' LIMIT 1");
+		$db_settings = $DB->query("SELECT settings FROM exp_extensions WHERE class = '" .get_class($this). "' LIMIT 1");
 	  
-	  if ($db_settings->num_rows === 1 && $db_settings->row['settings'] !== '')
-	  {
-	    $saved_settings = $REGX->array_stripslashes(unserialize($db_settings->row['settings']));
-	
-			foreach ($settings AS $key => $val)
-			{
-				if (array_key_exists($key, $saved_settings))
-				{
-					$settings[$key] = $saved_settings[$key];
-				}
-			}
-	  }
+		if ($db_settings->num_rows === 1 && $db_settings->row['settings'] !== '')
+		{
+			$saved_settings = $REGX->array_stripslashes(unserialize($db_settings->row['settings']));
+			$settings		= array_merge($settings, $saved_settings);
+		}
 	  
-	  // Return the settings.
-	  return $settings;
+		// Return the settings.
+		return $settings;
 	}
 	
 	
@@ -493,18 +496,18 @@ class Speakeasy {
 	  $LANG->fetch_language_file(strtolower(get_class($this)));
 	  
 	  return array(
-	    'activation_url'  => '',
-			'display_message'	=> 'n',
-	    'email_subject'   => $LANG->line('default_email_subject'),
-	    'email_body'      => $LANG->line('default_email_body'),
-	    'email_signature' => $LANG->line('default_email_signature'),
-			'message_delay'		=> $LANG->line('default_delay'),
-			'message_link'		=> $LANG->line('default_message_link'),
-			'message_heading'	=> $LANG->line('default_message_heading'),
-			'message_text'		=> $LANG->line('default_message_text'),
-			'message_title'		=> $LANG->line('default_message_title'),
-	    'update_check'    => 'y'
-	    );
+		'activation_url'	=> '',
+		'display_message'	=> 'n',
+		'email_subject'		=> $LANG->line('default_email_subject'),
+		'email_body'		=> $LANG->line('default_email_body'),
+		'email_signature'	=> $LANG->line('default_email_signature'),
+		'message_delay'		=> $LANG->line('default_delay'),
+		'message_link'		=> $LANG->line('default_message_link'),
+		'message_heading'	=> $LANG->line('default_message_heading'),
+		'message_text'		=> $LANG->line('default_message_text'),
+		'message_title'		=> $LANG->line('default_message_title'),
+		'update_check'		=> 'n'
+	   );
 	}
 	
 	
