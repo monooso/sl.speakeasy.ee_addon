@@ -5,7 +5,7 @@
  * comment moderation receive an email containing a link which allows them to approve their own comment.
  *
  * @package   Speakeasy
- * @version   1.2.0
+ * @version   1.2.1
  * @author    Stephen Lewis (http://experienceinternet.co.uk/)
  * @copyright Copyright (c) 2009, Stephen Lewis
  * @license   http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons Attribution-Noncommerical-Share Alike 3.0 Unported
@@ -26,12 +26,12 @@
  * @global  array   $plugin_info
  */
 $plugin_info = array(
-		'pi_name' 				=> 'Speakeasy',
-		'pi_version' 			=> '1.2.0',
-		'pi_author' 			=> 'Stephen Lewis',
-		'pi_author_url' 	=> 'http://experienceinternet.co.uk/',
-		'pi_description' 	=> 'Free speech for all (except spammers).',
-		'pi_usage'				=> Speakeasy_pl::usage()
+	'pi_name' 			=> 'Speakeasy',
+	'pi_version' 		=> '1.2.1',
+	'pi_author' 		=> 'Stephen Lewis',
+	'pi_author_url' 	=> 'http://experienceinternet.co.uk/',
+	'pi_description' 	=> 'Free speech for all (except spammers).',
+	'pi_usage'			=> Speakeasy_pl::usage()
 );
 
 
