@@ -5,7 +5,7 @@
  * comment moderation receive an email containing a link which allows them to approve their own comment.
  *
  * @package   Speakeasy
- * @version   1.2.1
+ * @version   1.2.2
  * @author    Stephen Lewis (http://experienceinternet.co.uk/)
  * @copyright Copyright (c) 2009, Stephen Lewis
  * @license   http://creativecommons.org/licenses/by-nc-sa/3.0/ Creative Commons Attribution-Noncommerical-Share Alike 3.0 Unported
@@ -45,7 +45,7 @@ class Speakeasy {
 	 * @access  public
 	 * @var     string
 	 */
-	public $version = '1.2.1';
+	public $version = '1.2.2';
 
 	/**
 	 * The extension description.
