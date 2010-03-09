@@ -520,7 +520,7 @@ class Speakeasy {
 	private function _generate_activation_code()
 	{
 		$code = md5(uniqid(rand(), FALSE));
-		$code = strtoupper(base_convert($code, 10, 32));
+		$code = strtoupper(base_convert($code, 32, 16));
 		$code = substr($code, 0, 10);
 		
 		return $code;
